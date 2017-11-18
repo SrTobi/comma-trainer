@@ -64,15 +64,17 @@ export class CorpusPanel extends React.Component<{settings: Settings}> {
                 </div>
                 <div>
                     <table>
-                        <tr>
-                            <td>Characters: </td><td>{this.corpusText.length}</td>
-                        </tr>
-                        <tr>
-                            <td>Sentences: </td><td>{corpus.sentences.length}</td>
-                        </tr>
-                        <tr>
-                            <td>Sentences with comma: </td><td>{corpus.commaSentences.length}</td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td>Characters: </td><td>{this.corpusText.length}</td>
+                            </tr>
+                            <tr>
+                                <td>Sentences: </td><td>{corpus.sentences.length}</td>
+                            </tr>
+                            <tr>
+                                <td>Sentences with comma: </td><td>{corpus.commaSentences.length}</td>
+                            </tr>
+                        </tbody>
                     </table>
                     <br />
                     <Vis.Message show={!enoughCommaSentences}>The Corpus should have at least {MinCommaSentences} sentences with commas!</Vis.Message>
