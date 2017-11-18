@@ -5,6 +5,7 @@ import {Settings} from './settings';
 import {SettingsPanel} from './settingsPanel';
 import {CorpusPanel} from './corpusPanel';
 import {MainPanel} from './mainPanel';
+import { Corpus } from "./corpus";
 
 import "jquery";
 import "bootstrap/dist/js/bootstrap";
@@ -16,14 +17,14 @@ import "./css/style.css";
 class GUI extends React.Component<{}, {}> {
 	private settings = new Settings()
 
-	constructor() {
-		super({});
+	constructor(props: any) {
+		super(props);
 
-		const add = this.settings.addCorpus.bind(this.settings);
+		const addLazy = (name: string, loader: () => Corpus) => {
+			this.settings.addCorpus(Corpus.createLazy(name, loader));
+		}
 		// add default texts
-		setTimeout(() => {
-			add(require("./corpora/sherlockHolmes"))
-		}, 0);
+		addLazy("The Adventures of Sherlock Holmes", () => require("./corpora/sherlockHolmes"));
 	}
 
 	render() {

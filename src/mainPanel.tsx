@@ -120,15 +120,17 @@ class TestInstance {
 }
 
 @observer
-export class MainPanel extends React.Component<{settings: Settings}, {editorState: EditorState}> {
+export class MainPanel extends React.Component<{settings: Settings}> {
 
     @observable
     private testInst: TestInstance | undefined;
 
+    @observable
+    private editorState: EditorState;
+
     constructor(props: {settings: Settings}) {
         super(props);
         
-        this.setState({editorState: EditorState.createEmpty()})
         this.waitForNewCorpus();
     }
 
@@ -138,19 +140,23 @@ export class MainPanel extends React.Component<{settings: Settings}, {editorStat
         console.log("Created new instance:");
         console.log(this.testInst.context);
         console.log(this.testInst.refSentence);
-        this.setState({editorState: EditorState.createWithContent(ContentState.createFromText(this.testInst.testSentence))});
+        this.editorState = EditorState.createWithContent(ContentState.createFromText(this.testInst.testSentence));
     }
 
     private waitForNewCorpus() {
-        when(() => this.props.settings.currentCorpus !== undefined, this.createNewTestInstance.bind(this));
-        this.testInst = undefined;
+        if (this.props.settings.currentCorpus === undefined) {
+            when(() => this.props.settings.currentCorpus !== undefined, this.createNewTestInstance.bind(this));
+            this.testInst = undefined;
+        } else {
+            this.createNewTestInstance();
+        }
     }
 
     private onEditFieldChange(newEditorState: EditorState) {
 
         const test = this.testInst!
         const text = newEditorState.getCurrentContent().getPlainText();
-        const oldText = this.state.editorState.getCurrentContent().getPlainText();
+        const oldText = this.editorState.getCurrentContent().getPlainText();
         const hasContentChanged = text !== oldText;
         console.log("change!");
         if (hasContentChanged) {
@@ -161,7 +167,7 @@ export class MainPanel extends React.Component<{settings: Settings}, {editorStat
             }
         }
 
-        this.setState({editorState: newEditorState});
+        this.editorState = newEditorState;
     }
 
     public render(): JSX.Element {
@@ -171,7 +177,7 @@ export class MainPanel extends React.Component<{settings: Settings}, {editorStat
             return (<Vis.Message>No corpus selected!</Vis.Message>)
         }
 
-        const text = this.state.editorState.getCurrentContent().getPlainText();
+        const text = this.editorState.getCurrentContent().getPlainText();
         const result = test.result;
         console.log("result=", result);
         return (
@@ -182,7 +188,7 @@ export class MainPanel extends React.Component<{settings: Settings}, {editorStat
                 <div className="editor-container">
                     {
                         !result?
-                            <Editor editorState={this.state.editorState} onChange={this.onEditFieldChange.bind(this)}/>
+                            <Editor editorState={this.editorState} onChange={this.onEditFieldChange.bind(this)}/>
                             :
                             result.chunks.map((c) => {switch(c.type) {
                                 case "stuff": return <span>{c.content}</span>

@@ -34,9 +34,29 @@ export class CorpusData {
 export class Corpus extends AutoIdAble {
     public constructor(
             public readonly name: string,
-            public readonly data: CorpusData
+            private readonly source: CorpusData | (() => Corpus)
         ) {
         super();
+    }
+
+    private _data: CorpusData | undefined = undefined;
+
+    public get data(): CorpusData {
+        if (this._data) {
+            return this._data;
+        }
+
+        if (typeof this.source === "function") {
+            console.log(`load lazy corpus ${this.name}`)
+            let corpus = this.source();
+            if (corpus.name != this.name) {
+                console.warn(`Loaded corpus '${corpus.name}' into '${this.name}'`)
+            }
+            this._data = corpus.data;
+        } else {
+            this._data = this.source;
+        }
+        return this._data;
     }
 
     public pickRandomCommaSentence(contextSize: number): [string, string[]] {
@@ -45,5 +65,9 @@ export class Corpus extends AutoIdAble {
 
     public static create(name: string, text: string): Corpus {
         return new Corpus(name, CorpusData.create(text));
+    }
+
+    public static createLazy(name: string, loader: () => Corpus) {
+        return new Corpus(name, loader)
     }
 }
