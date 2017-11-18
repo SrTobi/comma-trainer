@@ -1,0 +1,126 @@
+body {
+    background-color: whitesmoke;
+    padding-bottom: 200px;
+}
+
+.input-block {
+    font: 15px/normal 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    margin-bottom: 30px;
+}
+
+.input-block:last-child {
+    margin-bottom: 0px;
+}
+
+.editor-container {
+    background-color: lightgray;
+    margin: 5px 0;
+}
+
+.context-container, .editor-container {
+    font-size: 140%;
+    padding: 2px 4px
+}
+
+
+.switch {
+    vertical-align: middle;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+  margin: 0 4px;
+  vertical-align: middle;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .1s;
+  transition: .1s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .1s;
+  transition: .1s;
+}
+
+
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+
+
+
+
+.toggle {
+    vertical-align: middle;
+}
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Hide default HTML checkbox */
+.toggle input {display:none;}
+
+/* The slider */
+.toggle-view {
+  cursor: pointer;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  padding: 2px 5px;
+}
+
+.toggle-view:before {
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .toggle-view {
+  background-color: #2196F3;
+}
+
+input:focus + .toggle-view {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+.monaco-editor .margin {
+    background-color: #f0f0f0 !important
+}
+
