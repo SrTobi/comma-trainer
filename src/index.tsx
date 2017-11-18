@@ -26,6 +26,7 @@ class GUI extends React.Component<{}, {}> {
 		// add default texts
 		addLazy("The Adventures of Sherlock Holmes", () => require("./corpora/sherlockHolmes"));
 		addLazy("Pride and Prejudice", () => require("./corpora/prideAndPrejudice"));
+		addLazy("Alice's Adventures in Wonderland", () => require("./corpora/alicesAdventuresInWonderland"));
 	}
 
 	render() {
