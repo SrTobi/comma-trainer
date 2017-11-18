@@ -88,7 +88,7 @@ export class SelectForm extends React.Component<{value: string, items: SelectFor
 					ref={e => this.input = e!}
 					onChange={this.onChange.bind(this)}>
 					{
-						this.props.items.map(item => (<option value={item.value}>{item.data}</option>))
+						this.props.items.map(item => (<option key={item.value} value={item.value}>{item.data}</option>))
 					}
 				</select>
 			</FormGroup>
